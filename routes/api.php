@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/book', [BookController::class, 'index']);
+Route::get('/book/{id}', [BookController::class, 'show']);
