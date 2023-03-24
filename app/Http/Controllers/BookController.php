@@ -19,4 +19,17 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         return new BookDetailResource($book);
     }
+
+    public function store(Request $request) {
+        $request->validate([
+            'title' => 'required',
+            'author' => 'required|string',
+            'publisher' => 'required|string',
+            'description' => 'required',
+            'pages' => 'required|integer'
+        ]);
+
+        $book = Book::create($request->all());
+        return new BookDetailResource($book);
+    }
 }
