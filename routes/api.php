@@ -23,4 +23,4 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:san
 // route for book
 Route::get('/book', [BookController::class, 'index']);
 Route::get('/book/{id}', [BookController::class, 'show']);
-Route::post('/create', [BookController::class, 'store']);
+Route::post('/create', [BookController::class, 'store'])->middleware(['auth:sanctum','admin']);
