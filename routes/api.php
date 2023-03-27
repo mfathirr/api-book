@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +25,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:san
 // route for book
 Route::get('/book', [BookController::class, 'index']);
 Route::get('/book/{id}', [BookController::class, 'show']);
-Route::post('/create', [BookController::class, 'store'])->middleware(['auth:sanctum','admin']);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/book', [BookController::class, 'store'])->middleware(['admin']);
+    Route::patch('/book/{id}', [BookController::class, 'update'])->middleware(['admin']);
+    Route::delete('/book/{id}', [BookController::class, 'destroy'])->middleware(['admin']);
+});
+
+// Route for review
+Route::post('/review', [ReviewController::class, 'store'])->middleware(['auth:sanctum']);
+Route::patch('/review/{id}', [ReviewController::class, 'update'])->middleware(['auth:sanctum']);
+Route::delete('/review/{id}', [ReviewController::class, 'destroy'])->middleware(['auth:sanctum']);
+
+

@@ -11,9 +11,19 @@ class Book extends Model
 
     protected $fillable = [
         'title',
+        'image',
         'author',
         'publisher',
         'description',
         'pages'
     ];
+
+    public function reviews(){
+        return $this->hasMany(Review::class, 'book_id', 'id');
+    }
+    
+    public function reviewer(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
 }

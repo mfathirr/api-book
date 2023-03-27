@@ -17,9 +17,18 @@ class BookDetailResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'image' => $this->image,
             'author' => $this->author,
             'publisher' => $this->publisher,
-            'description' => $this->description
+            'description' => $this->description,
+            // 'reviews' => $this->whenLoaded('reviews', function () {
+            //     return collect($this->reviews)->each(function($review){
+            //         $review->reviewer;
+            //         return $review;
+            //     });
+            // }),
+            'reviews' => $this->whenLoaded('reviews'),
+            // 'reviewer' => $this->whenLoaded('reviewer')
         ];
     }
 }
