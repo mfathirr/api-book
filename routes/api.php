@@ -25,6 +25,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:san
 // route for book
 Route::get('/book', [BookController::class, 'index']);
 Route::get('/book/{id}', [BookController::class, 'show']);
+Route::get('/search/{search}',[BookController::class, 'search']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/book', [BookController::class, 'store'])->middleware(['admin']);
     Route::patch('/book/{id}', [BookController::class, 'update'])->middleware(['admin']);

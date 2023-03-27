@@ -21,6 +21,13 @@ class BookController extends Controller
         return new BookDetailResource($book->loadMissing(['reviewer:id,username','reviews:id,book_id,user_id,review_book']));
     }
 
+    public function search($search){
+        $result = Book::where('title', 'LIKE', "%{$search}%")->get();
+
+        // $book = Book::query()->where('title', 'LIKE', "%{$search}%");
+        return BookDetailResource::collection($result);
+    }
+
     public function store(Request $request) {
         $request->validate([
             'title' => 'required',
@@ -31,22 +38,17 @@ class BookController extends Controller
             'file' => 'nullable|mimes:jpeg,jpg,png|image|max:2048'
         ]);
 
-        // $image = null;
-        // if ($request->file) {
-        // $fileName = $this->generateRandomString();
-        // $extension = $request->file->extension();
+        $image = null;
 
-        // $image = $fileName.'.'.$extension;
-        // Storage::putFileAs('image', $request->file, $image);
-        // }
+        if ($request->file) {
+            $fileName = $this->generateRandomString();
+            $extension = $request->file->extension();
 
-        $request->validate([
-        'file' => 'required|file|mimes:pdf,doc,docx|max:2048'
-        ]);
+            $image = $fileName.'.'.$extension;
+            Storage::putFileAs('image', $request->file, $image);
+        }
 
-        $path = $request->file('file')->store('uploads');
-
-        $request['image'] = $path;
+        $request['image'] = $image;
         $book = Book::create($request->all());
         return new BookDetailResource($book);
     }
@@ -57,9 +59,23 @@ class BookController extends Controller
             'author' => 'required|string',
             'publisher' => 'required|string',
             'description' => 'required',
-            'pages' => 'required|integer'
+            'pages' => 'required|integer',
+            'file' => 'nullable|mimes:jpeg,jpg,png|image|max:2048'
         ]);
 
+        $image = null;
+
+        if ($request->file) {
+            $fileName = $this->generateRandomString();
+            $extension = $request->file->extension();
+
+            $image = $fileName.'.'.$extension;
+            Storage::putFileAs('image', $request->file, $image);
+        }
+
+        // $path = Storage::putFile('image', $request->file('file'));
+
+        $request['image'] = $image;
         $book = Book::findOrFail($id);
         $book->update($request->all());
 
@@ -75,13 +91,13 @@ class BookController extends Controller
         ]);
     }
 
-    public function generateRandomString($length = 40) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[random_int(0, $charactersLength - 1)];
+    public function generateRandomString($length = 20) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
-    return $randomString;
-}
 }
