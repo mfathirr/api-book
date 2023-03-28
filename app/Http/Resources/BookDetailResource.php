@@ -21,13 +21,13 @@ class BookDetailResource extends JsonResource
             'author' => $this->author,
             'publisher' => $this->publisher,
             'description' => $this->description,
-            // 'reviews' => $this->whenLoaded('reviews', function () {
-            //     return collect($this->reviews)->each(function($review){
-            //         $review->reviewer;
-            //         return $review;
-            //     });
-            // }),
-            'reviews' => $this->whenLoaded('reviews'),
+            'reviews' => $this->whenLoaded('reviews', function () {
+                return collect($this->reviews)->each(function($review){
+                    $review->reviewer;
+                    return $review;
+                });
+            }),
+            // 'reviews' => $this->whenLoaded('reviews'),
             // 'reviewer' => $this->whenLoaded('reviewer')
         ];
     }

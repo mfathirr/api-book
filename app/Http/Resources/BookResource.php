@@ -19,8 +19,10 @@ class BookResource extends JsonResource
             'title' => $this->title,
             'image' => $this->image,
             'author' => $this->author,
-            // 'publisher' => $this->publisher,
-            'description' => $this->description
+            'description' => $this->description,
+            'total_reviews' => $this->whenLoaded('reviews', function() {
+                return count($this->reviews);
+            })
         ];
     }
 }

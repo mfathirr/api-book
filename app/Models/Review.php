@@ -20,7 +20,7 @@ class Review extends Model
     }
 
     public function reviewer(){
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id')->select(['username']);
     }
 
     // public function reviews(){

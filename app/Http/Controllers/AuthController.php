@@ -12,73 +12,8 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    // public function register(Request $request){
-    //     $validator = Validator::make($request->all(), [
-    //         'email' => 'required|email|unique:users',
-    //         'password' => 'required|min:8',
-    //         'username' => 'required|unique:users',
-    //         'firstname' => 'required',
-    //         'lastname' => 'nullable'
-    //     ]);
 
-    //     if ($validator->fails()) {
-    //         return response()->json($validator->errors(), 422);
-    //     }
-
-    //     $user = User::create([
-    //         'email' => $request->email,
-    //         'password' => bcrypt($request->password),
-    //         'username' => $request->username,
-    //         'firstname' => $request->firstname,
-    //         'lastname' => $request->lastname
-    //     ]);
-
-    //     $token = $user->createToken('auth_token')->plainTextToken;
-
-    //     if($user) {
-    //         return response()->json([
-    //             'success' => true,
-    //             'user'    => $user, 
-    //             'token' => $token
-    //         ], 201);
-    //     }
-
-    //     return response()->json([
-    //         'success' => false,
-    //     ], 409);
-    // }
-
-    // public function login(Request $request) {
-    //     $request->validate([
-    //         'email' => 'required',
-    //         'password' => 'required',
-    //     ]);
-
-    //     // $user = User::where(function ($query) use ($request) {
-    //     //         $query->where('email', $request->email)
-    //     //               ->orWhere('username', $request->username);
-    //     //     })
-    //     //     ->first();
-    //     $user = User::where('email', $request->email)->first();
-
-    //     if (!$user || !Hash::check($request->password, $user->password)) {
-    //         throw ValidationException::withMessages([
-    //             'account' => ['The provided credentials are incorrect'],
-    //         ]);
-    //     }
-
-    //     return $user->createToken('logged in!')->plainTextToken;
-    // }
-
-    // public function logout(Request $request){
-    //     $request->user()->currentAccessToken()->delete();
-
-    //     return response()->json([
-    //         'message' => 'Logout success'
-    //     ]);
-    // }
-
-     public function register(Request $request)
+    public function register(Request $request)
     {
         $validator = Validator::make($request->all(),[
             'username' => 'required|string|max:255',

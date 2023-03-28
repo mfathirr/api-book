@@ -17,13 +17,14 @@ class Book extends Model
         'description',
         'pages'
     ];
+    
+    public function reviewer(){
+        return $this->belongsTo(User::class, 'user_id', 'id')->select(['username']);
+    }
 
     public function reviews(){
         return $this->hasMany(Review::class, 'book_id', 'id');
     }
     
-    public function reviewer(){
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
 
 }
